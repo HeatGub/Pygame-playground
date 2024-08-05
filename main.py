@@ -11,18 +11,32 @@ font = pygame.font.Font('freesansbold.ttf', 20)
 font_big = pygame.font.Font('freesansbold.ttf', 50)
 clock = pygame.time.Clock()
 FPS = 60
-circleColor=[100,150,0]
-speed = 0.1
 
 def drawWindow(time):
-    SCREEN.fill([0,0,5])
-    x = WIDTH/2 + 200*np.sin(time*speed)
-    y = HEIGHT/2 + 200*np.cos(time*speed)
-    drawPendulum(WIDTH/2, HEIGHT/2, x, y)
-    pygame.display.update()
-    #pygame.display.flip() #redraws whole screen
+    SCREEN.fill('black')
+    #drawPendulum(WIDTH/2, HEIGHT/2, x, y)
+    drawPendulum(WIDTH/2, HEIGHT/2, 200)
+    #pygame.display.update()
+    pygame.display.flip() #redraws whole screen
 
-def drawPendulum(pivotX, pivotY, x, y):
+circleColor=[100,150,0]
+gravity = 1
+angle = np.pi/2
+angVel = 0
+angAcc = 0
+
+def drawPendulum(pivotX, pivotY, len):
+    global angle
+    global angVel
+    global angAcc
+    force = gravity * np.sin(angle)
+    angAcc = (-1 * force) / len
+    angVel += angAcc
+    angle += angVel
+
+    x = WIDTH/2 + len*np.sin(angle)
+    y = HEIGHT/2 + len*np.cos(angle)
+
     pygame.draw.line(SCREEN, 'white', (pivotX, pivotY), (x, y), 4)
     pygame.draw.circle(SCREEN, circleColor, [x, y], 30)
 
