@@ -14,15 +14,18 @@ clock = pygame.time.Clock()
 FPS = 60
 gravity = 1
 
-pendulums = []
-for i in range(5):
-    p = functions.SimplePendulum(WIDTH/2, HEIGHT/2, random.randint(50,250), -1-3*random.random())
-    pendulums.append(p)
+# pendulums = []
+# for i in range(5):
+#     p = functions.SimplePendulum(WIDTH/2, HEIGHT/2, random.randint(50,250), -1-3*random.random())
+#     pendulums.append(p)
 
 balls = []
-for i in range(300):
-    b = functions.Ball(WIDTH/2,HEIGHT/2,-3 + 6*random.random(),-6*random.random(), 2)
+ballsSpeed = 10
+ballSize = HEIGHT/20
+for i in range(10):
+    b = functions.Ball(WIDTH/2,HEIGHT/2, -ballsSpeed/2+ballsSpeed*random.random(),-ballsSpeed/2+ballsSpeed*random.random(), ballSize)
     balls.append(b)
+
 
 def drawWindow():
     SCREEN.fill('black')
@@ -30,8 +33,8 @@ def drawWindow():
         balls[i].update()
         # if i == 1:
         #     print(b.velY)
-    for pendulum in pendulums:
-        pendulum.update()
+    # for pendulum in pendulums:
+    #     pendulum.update()
     pygame.display.flip() #redraws whole screen
 
 def gameLoop():

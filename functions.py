@@ -1,6 +1,7 @@
 
 import random
 import numpy as np
+import pygame
 # from main import pygame, SCREEN, WIDTH, HEIGHT, gravity
 
 class SimplePendulum:
@@ -14,7 +15,7 @@ class SimplePendulum:
         self.angAcc = 0
 
     def update(self):
-        from main import pygame, SCREEN, WIDTH, HEIGHT, gravity
+        from main import SCREEN, WIDTH, HEIGHT, gravity
 
         self.force = gravity * np.sin(self.angle)
         self.angAcc = (-1 * self.force) / self.len
@@ -37,12 +38,26 @@ class Ball:
         self.color=[random.randint(20,200),random.randint(20,200),random.randint(20,200)]
 
     def update(self):
-        from main import pygame, SCREEN, WIDTH, HEIGHT, gravity
+        from main import SCREEN, WIDTH, HEIGHT, gravity
         # self.forceY = gravity #mass later
         # self.forceX = 0
-        self.accY = gravity/20 #slow them down for now/
+        self.accY = gravity #slow them down for now/
         self.velY += self.accY
         self.y += self.velY
         self.x += self.velX
+
+        #bounce off the walls
+        if (self.x - self.radius) <= 0: #LEFT
+            self.x = 0 + self.radius #otherwise falls off the screen
+            self.velX = -self.velX
+        elif (self.x + self.radius) >= WIDTH: #RIGHT
+            self.x = WIDTH - self.radius
+            self.velX = -self.velX
+        if (self.y + self.radius) >= HEIGHT: #BOTTOM
+            self.y = HEIGHT - self.radius
+            self.velY = -self.velY
+        elif (self.y - self.radius) <= 0: #TOP
+            self.y = 0 + self.radius
+            self.velY = -self.velY
 
         pygame.draw.circle(SCREEN, self.color, [self.x, self.y], self.radius)
