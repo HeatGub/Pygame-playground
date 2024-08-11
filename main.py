@@ -4,12 +4,12 @@ import random
 import functions
 
 pygame.init()
+pygame.font.init()
 WIDTH = 800
 HEIGHT = 600
-SCREEN = pygame.display.set_mode([WIDTH, HEIGHT])
+SCREEN = pygame.display.set_mode([WIDTH, HEIGHT], pygame.RESIZABLE)
 pygame.display.set_caption('Pygame Window')
-font = pygame.font.Font('freesansbold.ttf', 20)
-font_big = pygame.font.Font('freesansbold.ttf', 50)
+#font = pygame.font.Font('freesansbold.ttf', 20)
 clock = pygame.time.Clock()
 FPS = 60
 gravity = 1
@@ -21,7 +21,7 @@ gravity = 1
 
 balls = []
 ballsSpeed = 10
-ballSize = HEIGHT/20
+ballSize = HEIGHT/10
 for i in range(10):
     b = functions.Ball(WIDTH/2,HEIGHT/2, -ballsSpeed/2+ballsSpeed*random.random(),-ballsSpeed/2+ballsSpeed*random.random(), ballSize)
     balls.append(b)
@@ -47,6 +47,14 @@ def gameLoop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            # update screen parameters on window resize
+            if event.type == pygame.VIDEORESIZE: 
+                global WIDTH
+                global HEIGHT
+                global SCREEN
+                WIDTH = event.w
+                HEIGHT = event.h
+                SCREEN = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
     pygame.quit()
 
 if __name__ == gameLoop(): # Execute Code When the File Runs as a Script, but Not When It's Imported as a Module

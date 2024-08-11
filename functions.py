@@ -35,6 +35,7 @@ class Ball:
         self.velX = velX
         self.velY = velY
         self.radius = radius
+        self.title = 'xcd'
         self.color=[random.randint(20,200),random.randint(20,200),random.randint(20,200)]
 
     def update(self):
@@ -59,5 +60,8 @@ class Ball:
         elif (self.y - self.radius) <= 0: #TOP
             self.y = 0 + self.radius
             self.velY = -self.velY
+        
+        #img = font.render("Hello", True, 'white')
+        #SCREEN.blit(img, ((SCREEN.get_width() - img.get_width())/2, (SCREEN.get_height() - img.get_height())/2))
 
         pygame.draw.circle(SCREEN, self.color, [self.x, self.y], self.radius)
