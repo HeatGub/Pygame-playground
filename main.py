@@ -4,15 +4,14 @@ import random
 import functions
 
 pygame.init()
-pygame.font.init()
+
 WIDTH = 800
 HEIGHT = 600
 SCREEN = pygame.display.set_mode([WIDTH, HEIGHT], pygame.RESIZABLE)
 pygame.display.set_caption('Pygame Window')
-#font = pygame.font.Font('freesansbold.ttf', 20)
 clock = pygame.time.Clock()
 FPS = 60
-gravity = 1
+gravity = 0.07
 
 # pendulums = []
 # for i in range(5):
@@ -21,11 +20,10 @@ gravity = 1
 
 balls = []
 ballsSpeed = 10
-ballSize = HEIGHT/10
-for i in range(10):
-    b = functions.Ball(WIDTH/2,HEIGHT/2, -ballsSpeed/2+ballsSpeed*random.random(),-ballsSpeed/2+ballsSpeed*random.random(), ballSize)
+ballSize = HEIGHT/6
+for i in range(3):
+    b = functions.Ball(WIDTH/2,HEIGHT/2, -ballsSpeed/4+ballsSpeed/2*random.random(),-ballsSpeed/2+ballsSpeed*random.random(), ballSize)
     balls.append(b)
-
 
 def drawWindow():
     SCREEN.fill('black')
@@ -37,24 +35,29 @@ def drawWindow():
     #     pendulum.update()
     pygame.display.flip() #redraws whole screen
 
+dt = 0
 def gameLoop():
+    global dt # to pass it to the module
     run = True
-
     while run:
+        last_tick = pygame.time.get_ticks()
         clock.tick(FPS) #controls framerate
         drawWindow()
+
         #event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
             # update screen parameters on window resize
             if event.type == pygame.VIDEORESIZE: 
-                global WIDTH
-                global HEIGHT
-                global SCREEN
+                global WIDTH, HEIGHT, SCREEN
                 WIDTH = event.w
                 HEIGHT = event.h
                 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+
+        dt = pygame.time.get_ticks() - last_tick # time delta
+
     pygame.quit()
 
 if __name__ == gameLoop(): # Execute Code When the File Runs as a Script, but Not When It's Imported as a Module
